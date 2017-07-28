@@ -2,6 +2,7 @@ package com.colisa.maputo;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -76,7 +77,12 @@ public abstract class DirectedGame implements ApplicationListener {
             } else {
                 // render screen to FBO
                 currentFBO.begin();
-                if (currentScreen != null) currentScreen.render(deltaTime);
+                if (currentScreen != null){
+                    currentScreen.render(deltaTime);
+                } else {
+                    Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
+                    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                }
                 currentFBO.end();
                 nextFBO.begin();
                 nextScreen.render(deltaTime);

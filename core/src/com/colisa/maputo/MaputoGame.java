@@ -5,29 +5,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
+import com.colisa.maputo.screens.DirectedGame;
+import com.colisa.maputo.screens.MenuScreen;
+import com.colisa.maputo.screens.transition.ScreenTransition;
+import com.colisa.maputo.screens.transition.ScreenTransitionSlide;
 
-public class MaputoGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-	}
+public class MaputoGame extends DirectedGame {
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
+	public void create() {
+		ScreenTransition transition = ScreenTransitionSlide.init(2, ScreenTransitionSlide.LEFT, false, Interpolation.swing);
+		setScreen(new MenuScreen(this), transition);
 	}
 }

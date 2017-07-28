@@ -9,7 +9,7 @@ public class MaputoGame extends DirectedGame {
 
 	@Override
 	public void create() {
-		ScreenTransition transition = ScreenTransitionSlide.init(2, ScreenTransitionSlide.LEFT, false, Interpolation.swing);
+		ScreenTransition transition = ScreenTransitionSlide.init(0.75f, ScreenTransitionSlide.DOWN, false, Interpolation.bounceOut);
 		setScreen(new MenuScreen(this), transition);
 	}
 }

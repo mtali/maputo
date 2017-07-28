@@ -1,4 +1,4 @@
-package com.colisa.maputo.screens;
+package com.colisa.maputo;
 
 
 import com.badlogic.gdx.InputProcessor;
@@ -11,7 +11,7 @@ public abstract class AbstractScreen implements Screen {
     private static final String TAG = AbstractScreen.class.getName();
     protected DirectedGame game;
 
-    AbstractScreen(DirectedGame game) {
+    public AbstractScreen(DirectedGame game) {
         this.game = game;
     }
 

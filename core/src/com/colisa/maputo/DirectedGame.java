@@ -1,11 +1,11 @@
-package com.colisa.maputo.screens;
+package com.colisa.maputo;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.colisa.maputo.screens.transition.ScreenTransition;
+import com.colisa.maputo.transition.ScreenTransition;
 
 public abstract class DirectedGame implements ApplicationListener {
 
@@ -21,6 +21,7 @@ public abstract class DirectedGame implements ApplicationListener {
 
     /**
      * Set next screen without transition
+     *
      * @param screen the new screen to replace the current
      */
     public void setScreen(AbstractScreen screen) {
@@ -63,7 +64,7 @@ public abstract class DirectedGame implements ApplicationListener {
             // update progress on the current transition
             time = Math.min(time + deltaTime, duration);
 
-            if (screenTransition == null || time >= duration){
+            if (screenTransition == null || time >= duration) {
                 // no transition or transition just finished
                 if (currentScreen != null) currentScreen.hide();
                 nextScreen.resume();
@@ -113,7 +114,7 @@ public abstract class DirectedGame implements ApplicationListener {
     public void dispose() {
         if (currentScreen != null) currentScreen.hide();
         if (nextScreen != null) nextScreen.hide();
-        if (init){
+        if (init) {
             currentFBO.dispose();
             nextFBO.dispose();
             batch.dispose();

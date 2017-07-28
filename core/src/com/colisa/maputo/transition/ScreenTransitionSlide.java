@@ -1,4 +1,4 @@
-package com.colisa.maputo.screens.transition;
+package com.colisa.maputo.transition;
 
 
 import com.badlogic.gdx.Gdx;

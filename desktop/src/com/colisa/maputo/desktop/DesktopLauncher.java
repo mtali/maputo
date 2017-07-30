@@ -7,8 +7,8 @@ import com.colisa.maputo.MaputoGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.height = 800;
 		config.width = 480;
+		config.height = 800;
 		config.title = "Maputo";
 		new LwjglApplication(new MaputoGame(), config);
 	}

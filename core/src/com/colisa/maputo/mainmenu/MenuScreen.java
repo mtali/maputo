@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -17,6 +18,9 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.colisa.maputo.AbstractScreen;
 import com.colisa.maputo.Constants;
 import com.colisa.maputo.DirectedGame;
+import com.colisa.maputo.GameScreen;
+import com.colisa.maputo.transition.ScreenTransition;
+import com.colisa.maputo.transition.ScreenTransitionSlide;
 
 public class MenuScreen extends AbstractScreen {
     private static final String TAG = MenuScreen.class.getName();
@@ -72,9 +76,9 @@ public class MenuScreen extends AbstractScreen {
 
     @Override
     public void hide() {
-        stage.dispose();
         skinLibgdx.dispose();
         maputoSkin.dispose();
+        stage.dispose();
         Gdx.app.debug(TAG, "disposing menu screen");
     }
 
@@ -116,7 +120,10 @@ public class MenuScreen extends AbstractScreen {
         @Override
         public void changed(ChangeEvent event, Actor actor) {
             if (actor.equals(playButton)) {
-                Gdx.app.debug(TAG, "Play button clicked");
+                // play button clicked
+                ScreenTransition transition = ScreenTransitionSlide
+                                .init(1.0f, ScreenTransitionSlide.DOWN, false, Interpolation.bounceOut);
+                game.setScreen(new GameScreen(game), transition);
             } else if (actor.equals(settingButton)) {
                 Gdx.app.debug(TAG, "Settings button clicked");
             }

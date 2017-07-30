@@ -1,4 +1,4 @@
-package com.colisa.maputo.mainmenu;
+package com.colisa.maputo;
 
 
 import com.badlogic.gdx.Gdx;
@@ -15,10 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.colisa.maputo.AbstractScreen;
-import com.colisa.maputo.Constants;
-import com.colisa.maputo.DirectedGame;
-import com.colisa.maputo.GameScreen;
 import com.colisa.maputo.transition.ScreenTransition;
 import com.colisa.maputo.transition.ScreenTransitionSlide;
 

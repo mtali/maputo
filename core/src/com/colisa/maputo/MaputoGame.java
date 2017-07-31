@@ -10,7 +10,7 @@ public class MaputoGame extends DirectedGame {
 	@Override
 	public void create() {
 		Gdx.app.setLogLevel(Constants.LOG_LEVEL);
-		ScreenTransition transition = ScreenTransitionSlide.init(0.75f, ScreenTransitionSlide.DOWN, false, Interpolation.bounceOut);
+		ScreenTransition transition = ScreenTransitionSlide.init(0.5f, ScreenTransitionSlide.DOWN, false, Interpolation.fade);
 		setScreen(new MenuScreen(this), transition);
 	}
 }

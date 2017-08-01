@@ -87,15 +87,15 @@ project(":core") {
     }
 
     task packTextures {
-        def rebuildAtlas = false
+        def rebuildAtlas = true
         def drawDebugOutline = false
         def inputDir = "$rootDir/core/raw_assets/images"
-        def outputDir = "$rootDir/android/assets/data"
+        def outputDir = "$rootDir/android/assets/data/packed"
         inputs.dir inputDir
         outputs.dir outputDir
         doLast {
             if (rebuildAtlas){
-                // delete(outputDir)
+                delete(outputDir)
                 def settings = new Settings()
                 settings.maxWidth = 1024
                 settings.maxHeight = 1024

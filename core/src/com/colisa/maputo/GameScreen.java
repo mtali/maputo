@@ -4,8 +4,6 @@ package com.colisa.maputo;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
-import com.colisa.maputo.rcl.WorldController;
-import com.colisa.maputo.rcl.WorldRenderer;
 
 public class GameScreen extends AbstractScreen {
     private static final String TAG = GameScreen.class.getName();

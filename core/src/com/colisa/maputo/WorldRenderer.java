@@ -1,11 +1,11 @@
-package com.colisa.maputo.rcl;
+package com.colisa.maputo;
 
 
 import com.badlogic.gdx.utils.Disposable;
 
 public class WorldRenderer implements Disposable{
 
-    public WorldRenderer(WorldController controller) {
+    public WorldRenderer(com.colisa.maputo.WorldController controller) {
 
     }
 

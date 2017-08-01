@@ -1,4 +1,4 @@
-package com.colisa.maputo.rcl;
+package com.colisa.maputo;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;

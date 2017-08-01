@@ -16,4 +16,7 @@ public class Constants {
     public static final float VIEWPORT_GUI_WIDTH = 480.0f;
     public static final float VIEWPORT_GUI_HEIGHT = 800.0f;
 
+    public static final float VIEWPORT_WIDTH = 10;
+    public static final float VIEWPORT_HEIGHT = VIEWPORT_WIDTH * 2;
+
 }

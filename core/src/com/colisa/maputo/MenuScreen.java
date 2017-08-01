@@ -98,8 +98,8 @@ public class MenuScreen extends AbstractScreen {
     private Table buildControlLayers() {
         Table rootTable = new Table();
         // + image balloon
-        Image imageBaloon = new Image(maputoSkin, "balloon");
-        rootTable.add(imageBaloon).row();
+        Image imageBalloon = new Image(maputoSkin, "balloon");
+        rootTable.add(imageBalloon).row();
         // + buttons table
         Table buttonsTable = new Table();
         playButton = new Button(maputoSkin, "play");

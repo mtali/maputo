@@ -19,6 +19,7 @@ public class GameScreen extends AbstractScreen {
     public void show() {
         worldController = new WorldController(game);
         worldRenderer = new WorldRenderer(worldController);
+        worldController.camera = worldRenderer.camera;
         Gdx.input.setCatchBackKey(true);
     }
 

@@ -19,4 +19,9 @@ public class Constants {
     public static final float VIEWPORT_WIDTH = 10;
     public static final float VIEWPORT_HEIGHT = VIEWPORT_WIDTH * 2;
 
+    public static final float BALLOON_SPAWN_TIME = 1.0f;
+
+    // Assets
+    public static final String BALLOON = "balloon";
+
 }

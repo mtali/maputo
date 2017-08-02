@@ -16,8 +16,8 @@ public class Level {
     }
 
     private void init() {
-        balloonSpawnTime = 0.3f;
-        balloons = new Balloons(100, new Vector2(0, 5), balloonSpawnTime);
+        balloonSpawnTime = 0.4f;
+        balloons = new Balloons(100, new Vector2(0, 7), balloonSpawnTime);
     }
 
     public void render(SpriteBatch batch) {

@@ -2,13 +2,14 @@ package com.colisa.maputo.entities;
 
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.colisa.maputo.Assets;
+import com.colisa.maputo.ColorHelper;
 
 public class Balloons {
 
@@ -18,6 +19,7 @@ public class Balloons {
     public Array<Balloon> balloons;
     private TextureRegion region;
     private float timeSinceLastSpawn;
+
 
     public Balloons(int amount, Vector2 speed, float defaultSpawnTime) {
         this.amount = amount;
@@ -48,6 +50,9 @@ public class Balloons {
         b.terminalVelocity.set(0, 10);
         b.velocity.set(speed);
 
+        // Color
+        b.color = ColorHelper.getRandomColor();
+
         return b;
     }
 
@@ -64,10 +69,12 @@ public class Balloons {
     private class Balloon extends AbstractEntity {
         private static final String TAG = "Balloon";
         private boolean collected;
+        private Color color;
 
         @Override
         public void render(SpriteBatch batch) {
             if (collected) return;
+            if (null != color) batch.setColor(color);
             batch.draw(
                     region.getTexture(),
                     position.x,

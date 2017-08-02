@@ -16,7 +16,7 @@ public class Balloons {
     public int amount;
     private Vector2 speed;
     private float defaultSpawnTime;
-    public Array<Balloon> balloons;
+    public Array<Balloon> balloonArray;
     private TextureRegion region;
     private float timeSinceLastSpawn;
 
@@ -29,7 +29,7 @@ public class Balloons {
     }
 
     private void init() {
-        balloons = new Array<Balloon>(amount);
+        balloonArray = new Array<Balloon>(amount);
         region = Assets.instance.assetBalloon.balloon;
         timeSinceLastSpawn = 0.0f;
     }
@@ -59,16 +59,16 @@ public class Balloons {
     private void checkSpawn(float delta, Camera camera) {
         timeSinceLastSpawn -= delta;
         if (timeSinceLastSpawn < 0 && amount > 0) {
-            balloons.add(spawnBalloon(camera));
+            balloonArray.add(spawnBalloon(camera));
             amount -= 1;
             timeSinceLastSpawn = defaultSpawnTime;
         }
     }
 
 
-    private class Balloon extends AbstractEntity {
+    public class Balloon extends AbstractEntity {
         private static final String TAG = "Balloon";
-        private boolean collected;
+        public boolean collected;
         private Color color;
 
         @Override
@@ -99,13 +99,13 @@ public class Balloons {
     }
 
     public void render(SpriteBatch batch) {
-        for (Balloon b : balloons)
+        for (Balloon b : balloonArray)
             b.render(batch);
     }
 
     public void update(float deltaTime, Camera camera) {
         checkSpawn(deltaTime, camera);
-        for (Balloon b : balloons)
+        for (Balloon b : balloonArray)
             b.update(deltaTime);
     }
 

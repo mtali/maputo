@@ -17,7 +17,7 @@ public abstract class AbstractEntity {
     Vector2 velocity;
     Vector2 terminalVelocity;
     Vector2 acceleration;
-    Rectangle bounds;
+    public Rectangle bounds;
     Vector2 friction;
 
     AbstractEntity() {

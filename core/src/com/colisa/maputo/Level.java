@@ -1,37 +1,30 @@
 package com.colisa.maputo;
 
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Array;
-import com.colisa.maputo.entities.Balloon;
+import com.badlogic.gdx.math.Vector2;
+import com.colisa.maputo.entities.Balloons;
 
 public class Level {
     private static final String TAG = Level.class.getName();
-    public Array<Balloon> balloons;
-    public float spawnTime;
-    public int numberOfBalloons;
+    public Balloons balloons;
+    public float balloonSpawnTime;
 
-    public Level(){
+    public Level() {
         init();
     }
 
     private void init() {
-        numberOfBalloons = 20;
-        balloons = new Array<Balloon>();
-        spawnTime = Constants.BALLOON_SPAWN_TIME;
-
+        balloonSpawnTime = 0.3f;
+        balloons = new Balloons(100, new Vector2(0, 5), balloonSpawnTime);
     }
-
 
     public void render(SpriteBatch batch) {
-        for (Balloon balloon: balloons)
-            balloon.render(batch);
+        balloons.render(batch);
     }
 
-    public void update(float deltaTime) {
-        for (Balloon balloon: balloons)
-            balloon.update(deltaTime);
+    public void update(float deltaTime, Camera camera) {
+        balloons.update(deltaTime, camera);
     }
 }

@@ -133,7 +133,8 @@ public class MenuScreen extends AbstractScreen {
                 // play button clicked
                 ScreenTransition transition = ScreenTransitionSlide
                         .init(0.5f, ScreenTransitionSlide.DOWN, false, Interpolation.fade);
-                game.setScreen(new GameScreen(game), transition);
+                GameScreen gameScreen = new GameScreen(game);
+                game.setScreen(gameScreen, transition);
             } else if (actor.equals(optionsButton)) {
                 Gdx.app.debug(TAG, "Options button clicked");
             } else if (actor.equals(leadersButton)) {

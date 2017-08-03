@@ -1,4 +1,4 @@
-package com.colisa.maputo.entities;
+package com.colisa.maputo.objects;
 
 
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -7,20 +7,20 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 @SuppressWarnings("WeakerAccess")
-public abstract class AbstractEntity {
+public abstract class BaseObject {
     public Vector2 position;
     public Vector2 dimension;
-    Vector2 origin;
-    Vector2 scale;
-    float rotation;
-    Animation animation;
-    Vector2 velocity;
-    Vector2 terminalVelocity;
-    Vector2 acceleration;
+    public Vector2 origin;
+    public Vector2 scale;
+    public float rotation;
+    public Animation animation;
+    public Vector2 velocity;
+    public Vector2 terminalVelocity;
+    public Vector2 acceleration;
     public Rectangle bounds;
-    Vector2 friction;
+    public Vector2 friction;
 
-    AbstractEntity() {
+    BaseObject() {
         position = new Vector2();
         dimension = new Vector2(1, 1);
         origin = new Vector2();

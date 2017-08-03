@@ -8,18 +8,24 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
-import com.colisa.maputo.entities.Balloons;
+import com.colisa.maputo.objects.Balloon;
 import com.colisa.maputo.transition.ScreenTransition;
 import com.colisa.maputo.transition.ScreenTransitionSlide;
 
+@SuppressWarnings("WeakerAccess")
 public class WorldController extends InputAdapter implements Disposable {
     private static final String TAG = WorldController.class.getName();
     private DirectedGame game;
-    public Level level;
     private Camera camera;
-    private float balloonLastSpawn;
     private Vector3 touchPosition;
     private Rectangle detectionRectangle = new Rectangle();
+    public Level level;
+    private BalloonController bController;
+    private int lives;
+    private int score;
+    private boolean gameOver;
+    private float timeLeftGameOver;
+
 
     public WorldController(DirectedGame game) {
         this.game = game;
@@ -32,32 +38,73 @@ public class WorldController extends InputAdapter implements Disposable {
 
     private void initLevel() {
         level = new Level();
-        balloonLastSpawn = level.balloonSpawnTime;
+        bController = level.balloonController;
         touchPosition = new Vector3();
+        lives = level.lives;
+        score = level.score;
+        gameOver = level.gameOver;
+        timeLeftGameOver = Constants.TIME_DISPLAY_GAME_OVER;
     }
 
 
     public void update(float delta) {
-        level.update(delta, camera);
-        testFingerBalloonCollision();
+        if (isGameOver()) {
+            timeLeftGameOver -= delta;
+            if (timeLeftGameOver < 0) {
+                backToMainMenu();
+            }
+        } else {
+            testFingerBalloonCollision();
+            checkBalloonsHitTopOfScreen();
+            level.update(delta, camera);
+        }
+
+
     }
 
     private void testFingerBalloonCollision() {
         if (Gdx.input.justTouched()) {
             touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPosition);
-            for (Balloons.Balloon b: level.balloons.balloonArray){
-                if (b.collected) continue;
-                detectionRectangle.set(b.position.x, b.position.y, b.bounds.width, b.bounds.height);
+            for (Balloon balloon : bController.getBalloons()) {
+                if (!balloon.isRunning()) continue;
+                // check if finger touch a the screen
+                detectionRectangle.set(
+                        balloon.position.x, balloon.position.y, balloon.bounds.width, balloon.bounds.height);
                 if (detectionRectangle.contains(touchPosition.x, touchPosition.y)) {
-                    b.collected = true;
-                    Gdx.app.debug(TAG, "Hit");
-                } else {
-                    Gdx.app.debug(TAG, "Miss");
+                    // add score
+                    score += Constants.BALLOON_HIT_SCORE;
+                    balloon.setBalloonState(Balloon.STATES.STOPPED);
+                    Gdx.app.debug(TAG, "Score: " + score);
                 }
             }
         }
     }
+
+    private void checkBalloonsHitTopOfScreen() {
+        for (Balloon balloon : bController.getBalloons()) {
+            if (!balloon.isRunning()) continue;
+            if (hasBalloonHitTopOfScreen(balloon)) {
+                lives -= 1;
+                Gdx.app.debug(TAG, "Lives: " + lives);
+                if (lives < 0) gameOver = true;
+                balloon.setBalloonState(Balloon.STATES.ZOMBIE);
+            }
+            if (outOfScreen(balloon)) {
+                balloon.setBalloonState(Balloon.STATES.STOPPED);
+            }
+        }
+    }
+
+    private boolean outOfScreen(Balloon balloon) {
+        return balloon.position.y >= camera.viewportHeight / 2;
+    }
+
+    private boolean hasBalloonHitTopOfScreen(Balloon balloon) {
+        return balloon.position.y + balloon.dimension.y >= camera.viewportHeight / 2;
+    }
+
+
 
     @Override
     public void dispose() {
@@ -81,5 +128,9 @@ public class WorldController extends InputAdapter implements Disposable {
 
     public void setCamera(Camera camera) {
         this.camera = camera;
+    }
+
+    public boolean isGameOver() {
+        return gameOver || lives < 0;
     }
 }

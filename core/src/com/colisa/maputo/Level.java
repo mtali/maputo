@@ -4,27 +4,32 @@ package com.colisa.maputo;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.colisa.maputo.entities.Balloons;
 
+@SuppressWarnings("WeakerAccess")
 public class Level {
     private static final String TAG = Level.class.getName();
-    public Balloons balloons;
-    public float balloonSpawnTime;
+
+    BalloonController balloonController;
+    int score;
+    int lives;
+    boolean gameOver;
 
     public Level() {
         init();
     }
 
     private void init() {
-        balloonSpawnTime = 0.4f;
-        balloons = new Balloons(100, new Vector2(0, 7), balloonSpawnTime);
+        balloonController = new BalloonController(50, new Vector2(0, 5), 2f);
+        score = 0;
+        lives = Constants.INITIAL_LIVES;
+        gameOver = false;
     }
 
     public void render(SpriteBatch batch) {
-        balloons.render(batch);
+        balloonController.render(batch);
     }
 
     public void update(float deltaTime, Camera camera) {
-        balloons.update(deltaTime, camera);
+        balloonController.update(deltaTime, camera);
     }
 }

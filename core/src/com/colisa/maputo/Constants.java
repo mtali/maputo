@@ -24,4 +24,8 @@ public class Constants {
     // Assets
     public static final String BALLOON = "balloon";
 
+    public static final int INITIAL_LIVES = 3;
+    public static final int BALLOON_HIT_SCORE = 10;
+    public static final float TIME_DISPLAY_GAME_OVER = 3;
+
 }

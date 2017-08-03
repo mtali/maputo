@@ -43,7 +43,7 @@ public abstract class DirectedGame implements ApplicationListener {
         nextScreen = screen;
         nextScreen.show();
         nextScreen.resize(width, height);
-        nextScreen.render(0.0f);
+        //nextScreen.render(0.0f);
         if (currentScreen != null) currentScreen.pause();
         nextScreen.pause();
         Gdx.input.setInputProcessor(null);

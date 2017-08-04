@@ -9,14 +9,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.StringBuilder;
-
+@SuppressWarnings("WeakerAccess")
 public class WorldRenderer implements Disposable {
     private static final String TAG = WorldRenderer.class.getName();
     private WorldController controller;
     private OrthographicCamera camera;
     private OrthographicCamera cameraGUI;
     private SpriteBatch batch;
-    private StringBuilder fpsBuilder = new StringBuilder();
 
     public WorldRenderer(com.colisa.maputo.WorldController controller) {
         this.controller = controller;
@@ -33,7 +32,9 @@ public class WorldRenderer implements Disposable {
         controller.setCamera(camera);
 
         // set gui camera
-        cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT * w/h);
         cameraGUI.setToOrtho(true);
         cameraGUI.update();
 
@@ -100,12 +101,12 @@ public class WorldRenderer implements Disposable {
 
     public void resize(int width, int height) {
         float ratio = (float) width / (float) height;
-        float ratioUp = (float) height / (float) width;
 
         camera.viewportWidth = Constants.VIEWPORT_HEIGHT * ratio;
         camera.update();
 
-        cameraGUI.viewportHeight = Constants.VIEWPORT_GUI_WIDTH * ratioUp;
+        cameraGUI.viewportWidth = Constants.VIEWPORT_GUI_WIDTH;
+        cameraGUI.viewportHeight = Constants.VIEWPORT_GUI_WIDTH * height/width;
         cameraGUI.position.set(cameraGUI.viewportWidth / 2, cameraGUI.viewportHeight / 2, 0);
         cameraGUI.update();
     }

@@ -6,14 +6,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.colisa.maputo.screens.BasicScreen;
 import com.colisa.maputo.transition.ScreenTransition;
 
 public abstract class DirectedGame implements ApplicationListener {
 
     private static final String TAG = DirectedGame.class.getName();
     private ScreenTransition screenTransition;
-    private AbstractScreen currentScreen;
-    private AbstractScreen nextScreen;
+    private BasicScreen currentScreen;
+    private BasicScreen nextScreen;
     private FrameBuffer currentFBO;
     private FrameBuffer nextFBO;
     private SpriteBatch batch;
@@ -25,11 +26,11 @@ public abstract class DirectedGame implements ApplicationListener {
      *
      * @param screen the new screen to replace the current
      */
-    public void setScreen(AbstractScreen screen) {
+    public void setScreen(BasicScreen screen) {
         setScreen(screen, null);
     }
 
-    public void setScreen(AbstractScreen screen, ScreenTransition transition) {
+    public void setScreen(BasicScreen screen, ScreenTransition transition) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         if (!init) {

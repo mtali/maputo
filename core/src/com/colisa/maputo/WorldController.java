@@ -120,9 +120,9 @@ public class WorldController extends InputAdapter implements Disposable {
     }
 
     private void backToMainMenu() {
-        ScreenTransition transition
-                = ScreenTransitionSlide.init(0.5f, ScreenTransitionSlide.DOWN, false, Interpolation.fade);
-        game.setScreen(new MenuScreen(game), transition);
+//        ScreenTransition transition
+//                = ScreenTransitionSlide.init(0.5f, ScreenTransitionSlide.DOWN, false, Interpolation.fade);
+//        game.setScreen(new MenuScreen(game), transition);
     }
 
     public void setCamera(Camera camera) {

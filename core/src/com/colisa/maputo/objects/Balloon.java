@@ -38,6 +38,7 @@ public class Balloon extends BaseObject {
                 false,
                 false
         );
+        batch.setColor(1, 1, 1, 1);
     }
 
     public void setBalloonState(STATES state) {

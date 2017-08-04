@@ -15,7 +15,7 @@ public class BalloonController {
     private int amount;
     private Vector2 speed;
     private float defaultSpawnTime;
-    private Array<Balloon> balloonArray;
+    private Array<Balloon> balloons;
     private TextureRegion region;
     private float timeSinceLastSpawn;
 
@@ -28,7 +28,7 @@ public class BalloonController {
     }
 
     private void init() {
-        balloonArray = new Array<Balloon>(amount);
+        balloons = new Array<Balloon>(amount);
         region = Assets.instance.assetBalloon.balloon;
         timeSinceLastSpawn = 0.0f;
     }
@@ -56,24 +56,24 @@ public class BalloonController {
     private void checkSpawn(float delta, Camera camera) {
         timeSinceLastSpawn -= delta;
         if (timeSinceLastSpawn < 0 && amount > 0) {
-            balloonArray.add(spawnBalloon(camera));
+            balloons.add(spawnBalloon(camera));
             amount -= 1;
             timeSinceLastSpawn = defaultSpawnTime;
         }
     }
 
     public void render(SpriteBatch batch) {
-        for (Balloon b : balloonArray)
+        for (Balloon b : balloons)
             b.render(batch);
     }
 
     public void update(float deltaTime, Camera camera) {
         checkSpawn(deltaTime, camera);
-        for (Balloon b : balloonArray)
+        for (Balloon b : balloons)
             b.update(deltaTime);
     }
 
     public Array<Balloon> getBalloons() {
-        return balloonArray;
+        return balloons;
     }
 }

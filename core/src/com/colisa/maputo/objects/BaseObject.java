@@ -1,6 +1,7 @@
 package com.colisa.maputo.objects;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 @SuppressWarnings("WeakerAccess")
 public abstract class BaseObject {
+    private static final String TAG = "BaseObject";
     public Vector2 position;
     public Vector2 dimension;
     public Vector2 origin;
@@ -40,7 +42,6 @@ public abstract class BaseObject {
     public void update(float deltaTime) {
         updateX(deltaTime);
         updateY(deltaTime);
-
         position.x += velocity.x * deltaTime;
         position.y += velocity.y * deltaTime;
     }

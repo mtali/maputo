@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 
 public class ColorHelper {
+    private static final Color RESET = new Color(1, 1, 1, 1);
     public static Color getRandomColor() {
         switch (MathUtils.random(0, 7)) {
             case 0:
@@ -24,7 +25,7 @@ public class ColorHelper {
             case 7:
                 return Color.GRAY;
             default:
-                return Color.CLEAR;
+                return RESET;
         }
     }
 }

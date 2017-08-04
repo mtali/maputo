@@ -14,7 +14,7 @@ public class Level {
     int score;
     int lives;
     boolean gameOver;
-    private Vector2 speed = new Vector2(0, 5);
+    private final Vector2 speed = new Vector2(0, 6);
 
     public Level() {
         init();
@@ -22,7 +22,7 @@ public class Level {
 
     private void init() {
 
-        balloonController = new BalloonController(500, speed, MathUtils.random(0.3f, 0.5f));
+        balloonController = new BalloonController(50, speed, MathUtils.random(0.3f, 0.5f));
         score = 0;
         lives = Constants.INITIAL_LIVES;
         gameOver = false;
@@ -33,7 +33,6 @@ public class Level {
     }
 
     public void update(float deltaTime, Camera camera) {
-        speed.y += deltaTime / 2;
         balloonController.update(deltaTime, camera);
     }
 }

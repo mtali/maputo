@@ -59,7 +59,6 @@ public class WorldController extends InputAdapter implements Disposable {
             level.update(delta, camera);
         }
 
-
     }
 
     private void testFingerBalloonCollision() {
@@ -131,6 +130,11 @@ public class WorldController extends InputAdapter implements Disposable {
     }
 
     public boolean isGameOver() {
-        return gameOver || lives < 0;
+        if (Constants.OVERRIDE_GAME_OVER) return false;
+        else return gameOver;
+    }
+
+    public int getLives() {
+        return lives;
     }
 }

@@ -8,12 +8,14 @@ import com.badlogic.gdx.utils.Disposable;
 import com.colisa.maputo.Constants;
 
 public class SkinManager implements Disposable{
+    private static final String TAG = "SkinManager";
     private static SkinManager instance;
     private Skin skin;
 
     public static SkinManager getInstance() {
         if (instance == null){
             instance = new SkinManager(Constants.SKIN_MAPUTO_UI);
+            Gdx.app.debug(TAG, "skin loaded");
         }
         return instance;
     }
@@ -32,10 +34,9 @@ public class SkinManager implements Disposable{
 
     @Override
     public void dispose() {
-        Gdx.app.debug("SkinManager", ".dispose() - enter");
         if (skin != null) {
             skin.dispose();
-            Gdx.app.debug("SkinManager", ".dispose() - skin disposed");
+            Gdx.app.debug(TAG, "skin disposed");
             skin = null;
             instance = null;
         }

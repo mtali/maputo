@@ -58,7 +58,7 @@ public class WorldRenderer implements Disposable {
         float x = cameraGUI.viewportWidth - 70;
         float y = cameraGUI.viewportHeight - 20;
         float fps = Gdx.graphics.getFramesPerSecond();
-        BitmapFont fpsFont = Assets.instance.assetFonts.defaultNormal;
+        BitmapFont fpsFont = Assets.instance.assetFonts.defaultSmall;
         if (fps >= 45) {
             fpsFont.setColor(Color.GREEN);
         } else if (fps >= 30) {

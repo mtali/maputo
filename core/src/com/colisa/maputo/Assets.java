@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Disposable;
+import com.colisa.maputo.screens.SkinManager;
+
 @SuppressWarnings("WeakerAccess")
 public class Assets implements AssetErrorListener, Disposable {
     private static final String TAG = Assets.class.getName();
@@ -56,7 +58,7 @@ public class Assets implements AssetErrorListener, Disposable {
         assetFonts.dispose();
         assetManager.dispose();
         initialized = false;
-        Gdx.app.debug(TAG, "Dispose assets");
+        Gdx.app.debug(TAG, "assets disposed");
     }
 
     public class AssetBalloon{
@@ -76,7 +78,7 @@ public class Assets implements AssetErrorListener, Disposable {
             defaultNormal = new BitmapFont(Gdx.files.internal(Constants.FONTS), true);
             defaultBig = new BitmapFont(Gdx.files.internal(Constants.FONTS), true);
 
-            setScaleAndFilter(defaultSmall, 0.75f, Texture.TextureFilter.Linear);
+            setScaleAndFilter(defaultSmall, 0.25f, Texture.TextureFilter.Linear);
             setScaleAndFilter(defaultNormal, 1.0f, Texture.TextureFilter.Linear);
             setScaleAndFilter(defaultBig, 2.0f, Texture.TextureFilter.Linear);
         }
@@ -90,6 +92,7 @@ public class Assets implements AssetErrorListener, Disposable {
             defaultSmall.dispose();
             defaultNormal.dispose();
             defaultBig.dispose();
+            SkinManager.getInstance().dispose();
         }
     }
 }

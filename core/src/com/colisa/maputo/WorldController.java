@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.colisa.maputo.objects.Balloon;
+import com.colisa.maputo.screens.*;
+import com.colisa.maputo.screens.MenuScreen;
 import com.colisa.maputo.transition.ScreenTransition;
 import com.colisa.maputo.transition.ScreenTransitionSlide;
 
@@ -25,6 +27,7 @@ public class WorldController extends InputAdapter implements Disposable {
     private int score;
     private boolean gameOver;
     private float timeLeftGameOver;
+    private MenuScreen menuScreen;
 
 
     public WorldController(DirectedGame game) {
@@ -74,7 +77,6 @@ public class WorldController extends InputAdapter implements Disposable {
                     // add score
                     score += Constants.BALLOON_HIT_SCORE;
                     balloon.setBalloonState(Balloon.STATES.STOPPED);
-                    Gdx.app.debug(TAG, "Score: " + score);
                 }
             }
         }
@@ -85,7 +87,6 @@ public class WorldController extends InputAdapter implements Disposable {
             if (!balloon.isRunning()) continue;
             if (hasBalloonHitTopOfScreen(balloon)) {
                 lives -= 1;
-                Gdx.app.debug(TAG, "Lives: " + lives);
                 if (lives < 0) gameOver = true;
                 balloon.setBalloonState(Balloon.STATES.ZOMBIE);
             }
@@ -104,7 +105,6 @@ public class WorldController extends InputAdapter implements Disposable {
     }
 
 
-
     @Override
     public void dispose() {
 
@@ -120,9 +120,10 @@ public class WorldController extends InputAdapter implements Disposable {
     }
 
     private void backToMainMenu() {
-//        ScreenTransition transition
-//                = ScreenTransitionSlide.init(0.5f, ScreenTransitionSlide.DOWN, false, Interpolation.fade);
-//        game.setScreen(new MenuScreen(game), transition);
+        if (menuScreen == null) menuScreen = new MenuScreen(game);
+        ScreenTransition transition
+                = ScreenTransitionSlide.init(0.5f, ScreenTransitionSlide.DOWN, false, Interpolation.fade);
+        game.setScreen(menuScreen, transition);
     }
 
     public void setCamera(Camera camera) {

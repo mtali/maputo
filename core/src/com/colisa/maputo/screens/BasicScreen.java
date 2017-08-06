@@ -13,10 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.colisa.maputo.Constants;
 import com.colisa.maputo.DirectedGame;
 
 @SuppressWarnings("WeakerAccess")
 public abstract class BasicScreen implements Screen {
+
+    private static final float VIEWPORT_WIDTH = 20;
+    private static final float VIEWPORT_HEIGHT = VIEWPORT_WIDTH * 2;
+
+    private static final String TAG = "BasicScreen";
 
     /* Weather static members have been initialized or not */
     private static boolean initialized = false;
@@ -121,7 +127,7 @@ public abstract class BasicScreen implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setCatchBackKey(false);
     }
 
     @Override

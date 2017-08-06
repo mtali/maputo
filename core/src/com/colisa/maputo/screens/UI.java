@@ -1,35 +1,56 @@
 package com.colisa.maputo.screens;
 
+@SuppressWarnings("WeakerAccess")
 public final class UI {
-    // Class contain basic parameters for creating windows
-    public static final class Window {
-        // this class should not be initialized
-        private Window() {}
+    /** This class should not be instantiated */
+    public UI() {}
 
-        // width and height in pixels to which all bitmaps are optimized
-        public static final float REFERENCE_WIDTH = 4000;
-        public static final float REFERENCE_HEIGHT = 2200;
+    /** Contain basic parameters for creating windows */
+    public final class Window {
+
+        /** This class should now be instantiated */
+        public Window() {}
+
+        /** Width in pixels for which all bitmaps are optimized */
+        public static final float REFERENCE_WIDTH = 1080;
+
+        /** Height in pixels for which all bitmaps are optimized*/
+        public static final float REFERENCE_HEIGHT = 1920;
     }
 
-    public static final class Transition {
-        private Transition(){}
+    /** Contain basic parameters for transitions */
+    public final class Transition {
+        /** This class should not be instantiated */
+        private Transition() {}
 
-        public static final float FADE_IN_TIME = 3.0f;
+        public static final float FADE_OUT_TIME = 0.2f;
+
+        public static final float FADE_IN_TIME = 0.3f;
+
     }
 
-    public static final class Buttons {
-        private Buttons(){}
+    public final class Buttons {
 
-        public static final int TEXT_BUTTON_WIDTH = 1600;
-        public static final int TEXT_BUTTON_HEIGHT = 400;
-        public static final int SPACE = 60;
+        /** This class should not be instantiated */
+        private Buttons() {}
+
+        public static final int TEXT_BUTTON_WIDTH = 500;
+
+        public static final int TEXT_BUTTON_HEIGHT = 110;
+
+        public static final float SPACE = 10;
+
     }
 
-    public static final class Balloon {
-        private Balloon(){}
+    public final class Balloon {
 
-        public static final int MAX_WIDTH = 1500;
-        public static final int MAX_HEIGHT = 2000;
+        /** This class should not be instantiated */
+        private Balloon() {}
 
+        public static final float WIDTH = 500;
+
+        public static final float HEIGHT = WIDTH * 3/1.9f;
+
+        public static final float PADDING_DOWN = -10;
     }
 }

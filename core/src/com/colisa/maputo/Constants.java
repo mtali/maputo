@@ -16,7 +16,7 @@ public class Constants {
     public static final String TEXTURE_LIBGDX_UI = "data/uiskin.atlas";
 
     // fonts
-    public static final String FONTS = "data/default.fnt";
+    public static final String FONTS = "data/fonts/default.fnt";
 
     public static final float VIEWPORT_GUI_WIDTH = 480.0f;
     public static final float VIEWPORT_GUI_HEIGHT = 800.0f;

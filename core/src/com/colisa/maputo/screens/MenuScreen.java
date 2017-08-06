@@ -3,14 +3,21 @@ package com.colisa.maputo.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.colisa.maputo.Assets;
 import com.colisa.maputo.DirectedGame;
 import com.colisa.maputo.transition.ScreenTransition;
 import com.colisa.maputo.transition.ScreenTransitionSlide;
@@ -24,7 +31,6 @@ public class MenuScreen extends BasicScreen {
     private MenuButtonsListener menuListener;
 
     // Screens
-    private GameScreen gameScreen;
 
     public MenuScreen(DirectedGame game) {
         super(game);
@@ -44,16 +50,17 @@ public class MenuScreen extends BasicScreen {
 
     private void createButtonsAndPositionContent() {
         Skin skin = SkinManager.getInstance().getSkin();
-        Table outerTable = new Table();
+        final Table outerTable = new Table();
         outerTable.setFillParent(true);
         stage.addActor(outerTable);
 
 
         Table innerTable = new Table();
-        balloonImage = new Image(skin, "balloon");
-        playButton = new Button(skin, "play");
-        settingsButton = new Button(skin, "options");
-        highScoreButton = new Button(skin, "leaders");
+        TextureAtlas.AtlasRegion region = Assets.instance.assetBalloon.balloon;
+        balloonImage = new Image(region);
+        playButton = new TextButton("Play", skin, "play");
+        settingsButton = new TextButton("Setting", skin, "setting");
+        highScoreButton = new TextButton("Leaders", skin, "leaders");
         innerTable.add(balloonImage).width(UI.Balloon.WIDTH).height(UI.Balloon.HEIGHT).pad(0, 0, -60, 0);
         innerTable.row();
         innerTable.add(playButton).width(UI.Buttons.TEXT_BUTTON_WIDTH).height(UI.Buttons.TEXT_BUTTON_HEIGHT).pad(UI.Buttons.SPACE);
@@ -69,7 +76,6 @@ public class MenuScreen extends BasicScreen {
         playButton.addListener(menuListener);
         settingsButton.addListener(menuListener);
         highScoreButton.addListener(menuListener);
-
     }
 
     @Override
@@ -84,10 +90,9 @@ public class MenuScreen extends BasicScreen {
         public void changed(ChangeEvent event, Actor actor) {
 
             if (actor.equals(playButton)) {
-                Gdx.app.debug(TAG, "GameScreen: " + gameScreen);
-                if (null == gameScreen) gameScreen = new GameScreen(game);
+
                 ScreenTransition transition = ScreenTransitionSlide.init(0.5f, ScreenTransitionSlide.DOWN, false, Interpolation.fade);
-                game.setScreen(gameScreen, transition);
+                game.setScreen(new GameScreen(game), transition);
 
             } else if (actor.equals(settingsButton))  {
 
@@ -97,7 +102,10 @@ public class MenuScreen extends BasicScreen {
 
                 Gdx.app.debug(TAG, "Leaders button clicked");
 
+            } else if (actor.equals(balloonImage)) {
+                Gdx.app.debug(TAG, "Balloon clicked");
             }
+
         }
     }
 }

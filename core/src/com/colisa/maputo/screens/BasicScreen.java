@@ -126,9 +126,7 @@ public abstract class BasicScreen implements Screen {
     }
 
     @Override
-    public void hide() {
-        Gdx.input.setCatchBackKey(false);
-    }
+    public void hide() {}
 
     @Override
     public void pause() {

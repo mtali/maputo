@@ -27,8 +27,6 @@ public class WorldController extends InputAdapter implements Disposable {
     private int score;
     private boolean gameOver;
     private float timeLeftGameOver;
-    private MenuScreen menuScreen;
-
 
     public WorldController(DirectedGame game) {
         this.game = game;
@@ -77,6 +75,7 @@ public class WorldController extends InputAdapter implements Disposable {
                     // add score
                     score += Constants.BALLOON_HIT_SCORE;
                     balloon.setBalloonState(Balloon.STATES.STOPPED);
+                    break;
                 }
             }
         }
@@ -113,6 +112,7 @@ public class WorldController extends InputAdapter implements Disposable {
 
     @Override
     public boolean keyUp(int keycode) {
+        Gdx.app.debug(TAG, "Fires");
         if (keycode == Keys.ESCAPE || keycode == Keys.BACK) {
             backToMainMenu();
         }
@@ -120,10 +120,9 @@ public class WorldController extends InputAdapter implements Disposable {
     }
 
     private void backToMainMenu() {
-        if (menuScreen == null) menuScreen = new MenuScreen(game);
         ScreenTransition transition
                 = ScreenTransitionSlide.init(0.5f, ScreenTransitionSlide.DOWN, false, Interpolation.fade);
-        game.setScreen(menuScreen, transition);
+        game.setScreen(new MenuScreen(game), transition);
     }
 
     public void setCamera(Camera camera) {

@@ -12,8 +12,6 @@ import com.colisa.maputo.transition.ScreenTransitionSlide;
 
 public class MaputoGame extends DirectedGame {
 
-    private MenuScreen menuScreen;
-    private GameScreen gameScreen;
 
     @Override
     public void create() {
@@ -27,9 +25,8 @@ public class MaputoGame extends DirectedGame {
         // which is only offered in main thread
         SkinManager.getInstance();
 
-        if (menuScreen == null) menuScreen = new MenuScreen(this);
         ScreenTransition transition = ScreenTransitionSlide.init(0.5f, ScreenTransitionSlide.DOWN, false, Interpolation.fade);
-        setScreen(menuScreen, transition);
+        setScreen(new MenuScreen(this), transition);
     }
 
     @Override

@@ -47,7 +47,7 @@ public final class UI {
         /** This class should not be instantiated */
         private Balloon() {}
 
-        public static final float WIDTH = 500;
+        public static final float WIDTH = 400;
 
         public static final float HEIGHT = WIDTH * 3/1.9f;
 

@@ -8,12 +8,6 @@
     black: { a: 1, b: 0, g: 0, r: 0 }
   },
 
-  com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
-    play: { up: play-up, down: play-up },
-    leaders: { up: leaders-up, down: leaders-up },
-    options: { up: options_up, down: options_up }
-  },
-
   com.badlogic.gdx.scenes.scene2d.ui.Image: {
     background: { drawable: background },
     balloon: { drawable: balloon },
@@ -21,6 +15,9 @@
   }
 
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
-  default: { up: play-up, down: play-up, checked: play-up, font: default-font, fontColor: black, disabled: play-up, disabledFontColor: green }
+    default: { up: play-up, down: play-up, checked: play-up, font: default-font, fontColor: black, disabled: play-up, disabledFontColor: green },
+    play: { up: play-up, down: play-down, checked: play-up, font: default-font, fontColor: black, disabled: play-up, disabledFontColor: green },
+    setting: { up: setting-up, down: setting-down, checked: setting-up, font: default-font, fontColor: black, disabled: setting-up, disabledFontColor: green },
+    leaders: { up: leaders-up, down: leaders-down, checked: leaders-up, font: default-font, fontColor: black, disabled: leaders-up, disabledFontColor: green },
   }
 }

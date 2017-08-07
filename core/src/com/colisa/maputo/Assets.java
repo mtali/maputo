@@ -74,11 +74,11 @@ public class Assets implements AssetErrorListener, Disposable {
         public final BitmapFont defaultBig;
 
         public AssetFonts() {
-            defaultSmall = new BitmapFont(Gdx.files.internal(Constants.FONTS), true);
-            defaultNormal = new BitmapFont(Gdx.files.internal(Constants.FONTS), true);
-            defaultBig = new BitmapFont(Gdx.files.internal(Constants.FONTS), true);
+            defaultSmall = new BitmapFont(Gdx.files.internal(Constants.FONTS), false);
+            defaultNormal = new BitmapFont(Gdx.files.internal(Constants.FONTS), false);
+            defaultBig = new BitmapFont(Gdx.files.internal(Constants.FONTS), false);
 
-            setScaleAndFilter(defaultSmall, 0.25f, Texture.TextureFilter.Linear);
+            setScaleAndFilter(defaultSmall, 0.75f, Texture.TextureFilter.Linear);
             setScaleAndFilter(defaultNormal, 1.0f, Texture.TextureFilter.Linear);
             setScaleAndFilter(defaultBig, 2.0f, Texture.TextureFilter.Linear);
         }

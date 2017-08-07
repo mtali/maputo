@@ -7,7 +7,7 @@ public class Constants {
 
     public static final boolean DEBUG_FLAG_MENU_SCREEN = false;
     public static final boolean DEBUG_FLAG_GAME_SCREEN = true;
-    public static final boolean OVERRIDE_GAME_OVER = true;
+    public static final boolean OVERRIDE_GAME_OVER = false;
     public static final int LOG_LEVEL = Application.LOG_DEBUG;
 
     public static final String SKIN_MAPUTO_UI = "data/maputo-ui.json";
@@ -30,7 +30,7 @@ public class Constants {
     public static final String BALLOON = "balloon";
 
     public static final int INITIAL_LIVES = 3;
-    public static final int BALLOON_HIT_SCORE = 10;
+    public static final int BALLOON_HIT_SCORE = 1;
     public static final float TIME_DISPLAY_GAME_OVER = 3;
 
 }

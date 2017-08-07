@@ -1,68 +1,68 @@
 
 maputo-ui.pack.png
-size: 256,256
+size: 128,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 154, 159
+  xy: 2, 98
   size: 50, 89
   orig: 50, 89
   offset: 0, 0
   index: -1
 balloon
   rotate: false
-  xy: 2, 18
-  size: 150, 230
-  orig: 150, 230
+  xy: 2, 189
+  size: 100, 153
+  orig: 100, 153
   offset: 0, 0
   index: -1
 leaders-down
   rotate: false
-  xy: 2, 2
+  xy: 2, 82
   size: 50, 14
   orig: 50, 14
   offset: 0, 0
   index: -1
 leaders-up
   rotate: false
-  xy: 154, 143
+  xy: 2, 66
   size: 50, 14
   orig: 50, 14
   offset: 0, 0
   index: -1
 menu-background
   rotate: false
-  xy: 206, 217
+  xy: 54, 156
   size: 29, 31
   orig: 29, 31
   offset: 0, 0
   index: -1
 play-down
   rotate: false
-  xy: 54, 2
+  xy: 2, 50
   size: 50, 14
   orig: 50, 14
   offset: 0, 0
   index: -1
 play-up
   rotate: false
-  xy: 154, 127
+  xy: 2, 34
   size: 50, 14
   orig: 50, 14
   offset: 0, 0
   index: -1
 setting-down
   rotate: false
-  xy: 154, 111
+  xy: 2, 18
   size: 50, 14
   orig: 50, 14
   offset: 0, 0
   index: -1
 setting-up
   rotate: false
-  xy: 154, 95
+  xy: 2, 2
   size: 50, 14
   orig: 50, 14
   offset: 0, 0

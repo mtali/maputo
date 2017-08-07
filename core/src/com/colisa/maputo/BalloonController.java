@@ -1,6 +1,7 @@
 package com.colisa.maputo;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,19 +19,21 @@ public class BalloonController {
     private Array<Balloon> balloons;
     private TextureRegion region;
     private float timeSinceLastSpawn;
+    private float startTime;
 
 
-    public BalloonController(int amount, Vector2 speed, float defaultSpawnTime) {
+    public BalloonController(int amount, Vector2 initialSpeed, float defaultSpawnTime) {
         this.amount = amount;
-        this.speed = speed;
+        this.speed = initialSpeed;
         this.defaultSpawnTime = defaultSpawnTime;
         init();
     }
 
     private void init() {
-        balloons = new Array<Balloon>(amount);
+        balloons = new Array<Balloon>();
         region = Assets.instance.assetBalloon.balloon;
         timeSinceLastSpawn = 0.0f;
+        startTime = 0;
     }
 
     private Balloon spawnBalloon(Camera camera) {
@@ -44,7 +47,7 @@ public class BalloonController {
         balloon.position.x = MathUtils.random(-halfVPWidth, halfVPWidth - balloon.dimension.x);
         balloon.position.y = -halfVPHeight - balloon.dimension.y;
         // velocity
-        balloon.terminalVelocity.set(0, 10);
+        balloon.terminalVelocity.set(0, 50);
         balloon.velocity.set(speed);
         // random color
         balloon.setColor(ColorHelper.getRandomColor());
@@ -55,7 +58,7 @@ public class BalloonController {
 
     private void checkSpawn(float delta, Camera camera) {
         timeSinceLastSpawn -= delta;
-        if (timeSinceLastSpawn < 0 && amount > 0) {
+        if (timeSinceLastSpawn < 0 ) {
             balloons.add(spawnBalloon(camera));
             amount -= 1;
             timeSinceLastSpawn = defaultSpawnTime;
@@ -68,6 +71,13 @@ public class BalloonController {
     }
 
     public void update(float deltaTime, Camera camera) {
+        startTime += deltaTime;
+        if (startTime > 60){
+            speed.set(0, speed.y + 0.75f);
+            defaultSpawnTime -= 0.015;
+            Gdx.app.debug("level up" , "yay");
+            startTime = 0;
+        }
         checkSpawn(deltaTime, camera);
         for (Balloon b : balloons)
             b.update(deltaTime);

@@ -137,4 +137,8 @@ public class WorldController extends InputAdapter implements Disposable {
     public int getLives() {
         return lives;
     }
+
+    public int getScore() {
+        return score;
+    }
 }

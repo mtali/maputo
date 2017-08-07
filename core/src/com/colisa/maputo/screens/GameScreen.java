@@ -22,7 +22,7 @@ public class GameScreen extends BasicScreen {
     protected void generateContent() {
         super.generateContent();
         if (controller == null) controller = new WorldController(game);
-        if (renderer == null) renderer = new WorldRenderer(controller);
+        if (renderer == null) renderer = new WorldRenderer(controller, stage);
     }
 
     @Override

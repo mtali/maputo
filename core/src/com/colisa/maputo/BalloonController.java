@@ -40,7 +40,8 @@ public class BalloonController {
         Balloon balloon = new Balloon();
         balloon.dimension.set(2, 3.1f);
         balloon.bounds.set(0, 0, balloon.dimension.x, balloon.dimension.y);
-        balloon.setBalloonState(Balloon.STATES.RUNNING);
+        balloon.setAlive(true);
+        balloon.setCanCollide(true);
         // position
         float halfVPWidth = camera.viewportWidth / 2;
         float halfVPHeight = camera.viewportHeight / 2;

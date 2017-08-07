@@ -10,15 +10,12 @@ public class Balloon extends BaseObject {
     private static final String TAG = "Balloon";
     private Color color;
     private TextureRegion region;
-    private STATES state;
-
-    public enum STATES {
-        RUNNING, STOPPED, ZOMBIE
-    }
+    private boolean alive;
+    private boolean canCollide;
 
     @Override
     public void render(SpriteBatch batch) {
-        if (state == STATES.STOPPED) return;
+        if (!alive) return;
         if (null != color) batch.setColor(color);
         batch.draw(
                 region.getTexture(),
@@ -41,13 +38,6 @@ public class Balloon extends BaseObject {
         batch.setColor(1, 1, 1, 1);
     }
 
-    public void setBalloonState(STATES state) {
-        this.state = state;
-    }
-
-    public STATES getState() {
-        return state;
-    }
 
     public void setColor(Color color) {
         this.color = color;
@@ -57,16 +47,19 @@ public class Balloon extends BaseObject {
         this.region = region;
     }
 
-    public boolean isRunning() {
-        return state == STATES.RUNNING;
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
-    public boolean isStopped() {
-        return state == STATES.STOPPED;
+    public boolean isAlive() {
+        return alive;
     }
 
-    public boolean isZombie() {
-        return state == STATES.ZOMBIE;
+    public void setCanCollide(boolean canCollide) {
+        this.canCollide = canCollide;
     }
 
+    public boolean canCollide() {
+        return canCollide;
+    }
 }

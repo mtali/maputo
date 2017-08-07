@@ -67,14 +67,14 @@ public class WorldController extends InputAdapter implements Disposable {
             touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPosition);
             for (Balloon balloon : bController.getBalloons()) {
-                if (!balloon.isRunning()) continue;
+                if (!balloon.isAlive()) continue;
                 // check if finger touch a the screen
                 detectionRectangle.set(
                         balloon.position.x, balloon.position.y, balloon.bounds.width, balloon.bounds.height);
                 if (detectionRectangle.contains(touchPosition.x, touchPosition.y)) {
                     // add score
                     score += Constants.BALLOON_HIT_SCORE;
-                    balloon.setBalloonState(Balloon.STATES.STOPPED);
+                    balloon.setAlive(false);
                     break;
                 }
             }
@@ -83,14 +83,14 @@ public class WorldController extends InputAdapter implements Disposable {
 
     private void checkBalloonsHitTopOfScreen() {
         for (Balloon balloon : bController.getBalloons()) {
-            if (!balloon.isRunning()) continue;
+            if (!balloon.canCollide() || !balloon.isAlive()) continue;
             if (hasBalloonHitTopOfScreen(balloon)) {
                 lives -= 1;
                 if (lives < 0) gameOver = true;
-                balloon.setBalloonState(Balloon.STATES.ZOMBIE);
+                balloon.setCanCollide(false);
             }
             if (outOfScreen(balloon)) {
-                balloon.setBalloonState(Balloon.STATES.STOPPED);
+                balloon.setAlive(false);
             }
         }
     }

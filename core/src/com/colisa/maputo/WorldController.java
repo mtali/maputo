@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.colisa.maputo.objects.Balloon;
@@ -22,11 +23,12 @@ public class WorldController extends InputAdapter implements Disposable {
     private Vector3 touchPosition;
     private Rectangle detectionRectangle = new Rectangle();
     public Level level;
-    private BalloonController bController;
     private int lives;
     private int score;
     private boolean gameOver;
     private float timeLeftGameOver;
+
+    public BalloonController balloonController;
 
     public WorldController(DirectedGame game) {
         this.game = game;
@@ -34,12 +36,12 @@ public class WorldController extends InputAdapter implements Disposable {
     }
 
     private void init() {
+        balloonController = new BalloonController(0.85f, new Vector2(0, 9));
         initLevel();
     }
 
     private void initLevel() {
         level = new Level();
-        bController = level.balloonController;
         touchPosition = new Vector3();
         lives = level.lives;
         score = level.score;
@@ -54,61 +56,17 @@ public class WorldController extends InputAdapter implements Disposable {
             if (timeLeftGameOver < 0) {
                 backToMainMenu();
             }
-        } else {
-            testFingerBalloonCollision();
-            checkBalloonsHitTopOfScreen();
-            level.update(delta, camera);
         }
 
+        balloonController.update(delta, camera);
     }
 
-    private void testFingerBalloonCollision() {
-        if (Gdx.input.justTouched()) {
-            touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(touchPosition);
-            for (Balloon balloon : bController.getBalloons()) {
-                if (!balloon.isAlive()) continue;
-                // check if finger touch a the screen
-                detectionRectangle.set(
-                        balloon.position.x, balloon.position.y, balloon.bounds.width, balloon.bounds.height);
-                if (detectionRectangle.contains(touchPosition.x, touchPosition.y)) {
-                    // add score
-                    score += Constants.BALLOON_HIT_SCORE;
-                    balloon.setAlive(false);
-                    break;
-                }
-            }
-        }
-    }
-
-    private void checkBalloonsHitTopOfScreen() {
-        for (Balloon balloon : bController.getBalloons()) {
-            if (!balloon.canCollide() || !balloon.isAlive()) continue;
-            if (hasBalloonHitTopOfScreen(balloon)) {
-                lives -= 1;
-                if (lives < 0) gameOver = true;
-                balloon.setCanCollide(false);
-            }
-            if (outOfScreen(balloon)) {
-                balloon.setAlive(false);
-            }
-        }
-    }
-
-    private boolean outOfScreen(Balloon balloon) {
-        return balloon.position.y >= camera.viewportHeight / 2;
-    }
-
-    private boolean hasBalloonHitTopOfScreen(Balloon balloon) {
-        return balloon.position.y + balloon.dimension.y >= camera.viewportHeight / 2;
-    }
 
 
     @Override
     public void dispose() {
 
     }
-
 
     @Override
     public boolean keyUp(int keycode) {
@@ -131,14 +89,14 @@ public class WorldController extends InputAdapter implements Disposable {
 
     public boolean isGameOver() {
         if (Constants.OVERRIDE_GAME_OVER) return false;
-        else return gameOver;
+        else return balloonController.gameOver;
     }
 
     public int getLives() {
-        return lives;
+        return balloonController.lives;
     }
 
     public int getScore() {
-        return score;
+        return balloonController.score;
     }
 }

@@ -49,7 +49,7 @@ public class WorldRenderer implements Disposable {
     private void worldRender(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        controller.level.render(batch);
+        controller.balloonController.render(batch);
         batch.end();
     }
 

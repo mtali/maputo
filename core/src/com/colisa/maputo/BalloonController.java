@@ -1,90 +1,145 @@
 package com.colisa.maputo;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import com.colisa.maputo.objects.Balloon;
 
 @SuppressWarnings("WeakerAccess")
 public class BalloonController {
+    private static final String TAG = "BalloonController";
 
-    private int amount;
-    private Vector2 speed;
-    private float defaultSpawnTime;
-    private Array<Balloon> balloons;
-    private TextureRegion region;
+    private float spawnTime;
     private float timeSinceLastSpawn;
-    private float startTime;
+    private Vector2 speed;
+
+    private Rectangle balloonCollisionBox;
+    private Vector3 touchPosition;
+
+    public int score;
+    public int lives;
+    public boolean gameOver;
+
+    private float levelUpTime;
 
 
-    public BalloonController(int amount, Vector2 initialSpeed, float defaultSpawnTime) {
-        this.amount = amount;
+    private final Array<Balloon> activeBalloons = new Array<Balloon>();
+    private final Pool<Balloon> balloonPool = new Pool<Balloon>() {
+        @Override
+        protected Balloon newObject() {
+            return new Balloon();
+        }
+
+    };
+
+    public BalloonController(float spawnTime, Vector2 initialSpeed) {
+        this.spawnTime = spawnTime;
         this.speed = initialSpeed;
-        this.defaultSpawnTime = defaultSpawnTime;
         init();
     }
 
-    private void init() {
-        balloons = new Array<Balloon>();
-        region = Assets.instance.assetBalloon.balloon;
-        timeSinceLastSpawn = 0.0f;
-        startTime = 0;
+    public void init() {
+        gameOver = false;
+        timeSinceLastSpawn = 0;
+        balloonCollisionBox = new Rectangle();
+        touchPosition = new Vector3();
+        balloonPool.freeAll(activeBalloons);
+        activeBalloons.clear();
+        lives = Constants.INITIAL_LIVES;
+        levelUpTime = 2;
     }
 
-    private Balloon spawnBalloon(Camera camera) {
-        Balloon balloon = new Balloon();
-        balloon.dimension.set(2, 3.1f);
-        balloon.bounds.set(0, 0, balloon.dimension.x, balloon.dimension.y);
-        balloon.setAlive(true);
-        balloon.setCanCollide(true);
-        // position
-        float halfVPWidth = camera.viewportWidth / 2;
-        float halfVPHeight = camera.viewportHeight / 2;
-        balloon.position.x = MathUtils.random(-halfVPWidth, halfVPWidth - balloon.dimension.x);
-        balloon.position.y = -halfVPHeight - balloon.dimension.y;
-        // velocity
-        balloon.terminalVelocity.set(0, 50);
-        balloon.velocity.set(speed);
-        // random color
-        balloon.setColor(ColorHelper.getRandomColor());
-        // region
-        balloon.setRegion(region);
-        return balloon;
+
+
+    public void update(float delta, Camera camera) {
+        levelUpTime -= delta;
+        if (!gameOver) {
+            checkSpawn(delta, camera);
+            testFingerBalloonCollision(camera);
+            checkBalloonHitScreenTop(camera);
+            checkOutOfScreen(camera);
+        }
+
+        if (levelUpTime <= 0) {
+            speed.set(0, speed.y + 0.5f);
+            spawnTime -= 0.015;
+            levelUpTime = 2;
+            Gdx.app.debug(TAG, "Level up: speed = " + speed.y + " spawn time = " + spawnTime);
+        }
+
+        for (Balloon balloon : activeBalloons)
+            balloon.update(delta);
+
+    }
+
+    public void render(SpriteBatch batch) {
+        for (Balloon balloon : activeBalloons) {
+            balloon.render(batch);
+        }
     }
 
     private void checkSpawn(float delta, Camera camera) {
         timeSinceLastSpawn -= delta;
-        if (timeSinceLastSpawn < 0 ) {
-            balloons.add(spawnBalloon(camera));
-            amount -= 1;
-            timeSinceLastSpawn = defaultSpawnTime;
+        if (timeSinceLastSpawn < 0) {
+            Balloon balloon = balloonPool.obtain();
+            balloon.init(camera, speed);
+            activeBalloons.add(balloon);
+            timeSinceLastSpawn = spawnTime;
         }
     }
 
-    public void render(SpriteBatch batch) {
-        for (Balloon b : balloons)
-            b.render(batch);
-    }
-
-    public void update(float deltaTime, Camera camera) {
-        startTime += deltaTime;
-        if (startTime > 60){
-            speed.set(0, speed.y + 0.75f);
-            defaultSpawnTime -= 0.015;
-            Gdx.app.debug("level up" , "yay");
-            startTime = 0;
+    private void testFingerBalloonCollision(Camera camera) {
+        if (Gdx.input.justTouched()) {
+            touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPosition);
+            int len = activeBalloons.size;
+            Balloon balloon;
+            for (int i = len; --i >= 0;) {
+                balloon = activeBalloons.get(i);
+                if (!balloon.isAlive()) continue;
+                balloonCollisionBox.set(balloon.position.x, balloon.position.y, balloon.bounds.width, balloon.bounds.height);
+                if (balloonCollisionBox.contains(touchPosition.x, touchPosition.y)) {
+                    score += Constants.BALLOON_HIT_SCORE;
+                    balloon.setAlive(false);
+                    activeBalloons.removeIndex(i);
+                    balloonPool.free(balloon);
+                    break;
+                }
+            }
         }
-        checkSpawn(deltaTime, camera);
-        for (Balloon b : balloons)
-            b.update(deltaTime);
     }
 
-    public Array<Balloon> getBalloons() {
-        return balloons;
+    private void checkBalloonHitScreenTop(Camera camera) {
+        for (Balloon balloon : activeBalloons) {
+            if (!balloon.canCollide() || !balloon.isAlive()) continue;
+            if (hitTopScreen(balloon, camera)) {
+                Gdx.app.debug("BalloonController", "collide");
+                lives -= 1;
+                if (lives < 0) gameOver = true;
+                balloon.setCanCollide(false);
+            }
+        }
+    }
+
+    private void checkOutOfScreen(Camera camera) {
+        int len = activeBalloons.size;
+        Balloon balloon;
+        for (int i = len; --i >= 0;) {
+            balloon = activeBalloons.get(i);
+            if (balloon.position.y >= camera.viewportHeight / 2) {
+                balloon.setAlive(false);
+                activeBalloons.removeIndex(i);
+                balloonPool.free(balloon);
+            }
+        }
+    }
+
+    private boolean hitTopScreen(Balloon balloon, Camera camera) {
+        return balloon.position.y + balloon.dimension.y >= camera.viewportHeight / 2;
     }
 }

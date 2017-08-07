@@ -75,19 +75,16 @@ public class MenuScreen extends BasicScreen {
 
         buttonsTable.add(playButton).width(UI.Buttons.TEXT_BUTTON_WIDTH).height(UI.Buttons.TEXT_BUTTON_HEIGHT).pad(UI.Buttons.SPACE);
         buttonsTable.row();
-        buttonsTable.add(settingsButton).width(UI.Buttons.TEXT_BUTTON_WIDTH).height(UI.Buttons.TEXT_BUTTON_HEIGHT).pad(UI.Buttons.SPACE);
+        buttonsTable.add(settingsButton).width(UI.Buttons.TEXT_BUTTON_WIDTH).height(UI.Buttons.TEXT_BUTTON_HEIGHT).pad(0);
         buttonsTable.row();
         buttonsTable.add(highScoreButton).width(UI.Buttons.TEXT_BUTTON_WIDTH).height(UI.Buttons.TEXT_BUTTON_HEIGHT).pad(UI.Buttons.SPACE);
         buttonsTable.row();
         buttonsTable.setBackground(controlsBackground);
-
-        innerTable.add(balloonImage).width(UI.Balloon.WIDTH).height(UI.Balloon.HEIGHT).pad(0, 0, -60, 0);
+        innerTable.add(balloonImage).width(UI.Balloon.WIDTH).height(UI.Balloon.HEIGHT).pad(0, 0, 0, 0);
         innerTable.row();
-        innerTable.add(buttonsTable).pad(70, 70, 70, 70);
-
+        innerTable.add(buttonsTable).pad(0, 70, 70, 70);
         outerTable.add(innerTable).colspan(2).expand();
 
-//        innerTable.debugAll();
 
         // Add listeners
         playButton.addListener(menuListener);

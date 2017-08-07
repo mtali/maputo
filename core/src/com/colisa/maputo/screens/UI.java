@@ -38,7 +38,7 @@ public final class UI {
 
         public static final int TEXT_BUTTON_HEIGHT = 110;
 
-        public static final float SPACE = 10;
+        public static final float SPACE = 40;
 
     }
 

@@ -7,18 +7,24 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 @SuppressWarnings("WeakerAccess")
 public class WorldRenderer implements Disposable {
     private static final String TAG = WorldRenderer.class.getName();
     private WorldController controller;
     private OrthographicCamera camera;
-    //    private OrthographicCamera cameraGUI;
+
     private Stage stage;
     private SpriteBatch batch;
-    private HUD displayHUD;
+
+    private UpdatesHUD updatesHUD;
 
 
     public WorldRenderer(WorldController controller, Stage stage) {
@@ -36,13 +42,13 @@ public class WorldRenderer implements Disposable {
         camera.update();
         controller.setCamera(camera);
 
-        if (displayHUD == null) displayHUD = new HUD();
+        if (updatesHUD == null) updatesHUD = new UpdatesHUD();
 
     }
 
     public void render() {
         worldRender(batch);
-        displayHUD.render(batch, controller.getScore(), controller.getLives());
+        updatesHUD.render(batch, controller.getScore(), controller.getLives());
     }
 
 
@@ -55,11 +61,9 @@ public class WorldRenderer implements Disposable {
 
     public void resize(int width, int height) {
         float ratio = (float) width / (float) height;
-
+        updatesHUD.resize(width, height);
         camera.viewportWidth = Constants.VIEWPORT_HEIGHT * ratio;
         camera.update();
-
-        displayHUD.update(width, height);
     }
 
     @Override
@@ -68,88 +72,103 @@ public class WorldRenderer implements Disposable {
     }
 
 
-    /**
-     * This class is responsible to render score lives and fps overlays
-     * specifically for Game Screen
-     */
-    private final class HUD {
+    private final class UpdatesHUD {
         private OrthographicCamera camera;
-        private int width = 300;
+        private Viewport viewport;
+        private static final float SCENE_WIDTH = 400f;
+        private static final float SCENE_HEIGHT = 600f;
+        private TextureRegion balloon;
+        private final Vector2 dimension = new Vector2(45f, 45f * 1.53f);
+        private final float margin = 15f;
         private BitmapFont font;
-        private BitmapFont fontBig;
-        private TextureRegion balloonRegion;
 
-
-        public HUD() {
-            float w = Gdx.graphics.getWidth();
-            float h = Gdx.graphics.getHeight();
-            camera = new OrthographicCamera(width, width * h / w);
-            camera.update();
+        public UpdatesHUD() {
+            camera = new OrthographicCamera();
+            viewport = new ExtendViewport(SCENE_WIDTH, SCENE_HEIGHT, camera);
+            balloon = Assets.instance.assetBalloon.balloon;
 
             font = Assets.instance.assetFonts.defaultSmall;
-            fontBig = Assets.instance.assetFonts.defaultSmall;
-            balloonRegion = Assets.instance.assetBalloon.balloon;
         }
 
         public void render(SpriteBatch batch, int score, int lives) {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
-            renderFPS(batch);
-            renderScore(batch, score);
             renderExtraLives(batch, lives);
+            renderScore(batch, score);
+            renderFPS(batch);
             batch.end();
         }
 
-        private void renderExtraLives(SpriteBatch batch, int lives) {
+        public void resize(int width, int height) {
+            viewport.update(width, height, true);
+        }
 
-            float x = camera.viewportWidth - Constants.INITIAL_LIVES * 51f;
-            float y = camera.viewportHeight - 95 ;
+        private void renderExtraLives(SpriteBatch batch, int lives) {
+            float x = camera.viewportWidth - Constants.INITIAL_LIVES * (dimension.x + margin);
+            float y = camera.viewportHeight - (dimension.y + margin);
+
             for (int i = 0; i < Constants.INITIAL_LIVES; i++) {
-                if (lives <= i) batch.setColor(0.5f, 0.5f, 0.5f, 0.5f);
+
+                if (lives <= i) batch.setColor(.5f, .5f, .5f, .9f);
                 batch.draw(
-                        Assets.instance.assetBalloon.balloon,
-                        x + i * 40,
+                        balloon.getTexture(),
+                        x + i * (dimension.x + margin),
                         y,
-                        50,
-                        50,
-                        100,
-                        150,
-                        0.3f,
-                        0.3f,
-                        0
+                        0,
+                        0,
+                        dimension.x,
+                        dimension.y,
+                        1,
+                        1,
+                        0,
+                        balloon.getRegionX(),
+                        balloon.getRegionY(),
+                        balloon.getRegionWidth(),
+                        balloon.getRegionHeight(),
+                        false,
+                        false
                 );
                 batch.setColor(1, 1, 1, 1);
             }
-
-
         }
 
         private void renderScore(SpriteBatch batch, int score) {
-            font.getData().setScale(0.3f);
-            float x = -25;
-            float y = camera.viewportHeight - 95;
+            font.getData().setScale(0.4f);
+            float x = 0;
+            float y = camera.viewportHeight - (dimension.y + margin);
             batch.setColor(Color.GOLD);
             batch.draw(
-                    Assets.instance.assetBalloon.balloon,
-                    x,
+                    balloon.getTexture(),
+                    margin,
                     y,
-                    50,
-                    50,
-                    100,
-                    150,
-                    0.3f,
-                    0.3f,
-                    0
+                    0,
+                    0,
+                    dimension.x,
+                    dimension.y,
+                    1,
+                    1,
+                    0,
+                    balloon.getRegionX(),
+                    balloon.getRegionY(),
+                    balloon.getRegionWidth(),
+                    balloon.getRegionHeight(),
+                    false,
+                    false
             );
             batch.setColor(1, 1, 1, 1);
-            font.draw(batch, String.valueOf(score), x + 70f, y + 70f);
+            font.draw(
+                    batch,
+                    String.valueOf(score),
+                    x + 80,
+                    y + 54
+            );
         }
 
         private void renderFPS(SpriteBatch batch) {
+            font.getData().setScale(0.2f);
             float fps = Gdx.graphics.getFramesPerSecond();
-            font.getData().setScale(0.15f);
-            float x = camera.viewportWidth - 40;
-            float y = 13;
+            float x = camera.viewportWidth - 56;
+            float y = 15;
             if (fps >= 45) {
                 font.setColor(Color.GREEN);
             } else if (fps >= 30) {
@@ -157,15 +176,11 @@ public class WorldRenderer implements Disposable {
             } else {
                 font.setColor(Color.RED);
             }
+
             font.draw(batch, "FPS: " + fps, x, y);
             font.setColor(1, 1, 1, 1);
         }
 
-        public void update(int width, int height) {
-            camera.viewportWidth = this.width;
-            camera.viewportHeight = this.width * height / width;
-            camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-            camera.update();
-        }
     }
+
 }

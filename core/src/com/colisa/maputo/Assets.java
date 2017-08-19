@@ -58,6 +58,7 @@ public class Assets implements AssetErrorListener, Disposable {
         assetFonts.dispose();
         assetManager.dispose();
         initialized = false;
+        SkinManager.getInstance().dispose();
         Gdx.app.debug(TAG, "assets disposed");
     }
 
@@ -92,7 +93,6 @@ public class Assets implements AssetErrorListener, Disposable {
             defaultSmall.dispose();
             defaultNormal.dispose();
             defaultBig.dispose();
-            SkinManager.getInstance().dispose();
         }
     }
 }

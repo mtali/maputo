@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -43,6 +44,7 @@ public abstract class BasicScreen implements Screen {
     protected static Viewport viewport;
 
     protected final Stage stage;
+    protected final Stack stack;
 
     protected InputMultiplexer inputProcessor;
 
@@ -52,11 +54,14 @@ public abstract class BasicScreen implements Screen {
         this.game = game;
 
         stage = new Stage();
+        stack  = new Stack();
         if (!initialized) {
             initialize();
             initialized = true;
         }
         stage.setViewport(viewport);
+        stage.addActor(stack);
+        stack.setFillParent(true);
         inputProcessor = new InputMultiplexer(stage);
         generateContent();
     }

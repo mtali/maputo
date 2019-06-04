@@ -9,3 +9,9 @@ I did this game for fun. It involves poping baloons as they pass through the scr
 
 # Status
 The project is still under development but its playable :)
+
+# Screenshorts
+![Home](https://drive.google.com/open?id=1IS4aicQQ-DfLuCB8IL8YnLK_ljdDQoVP)
+
+![Game play](https://drive.google.com/open?id=10lkR-ov4Yxmj5KBDoUvakMAwocdbSSJb)
+

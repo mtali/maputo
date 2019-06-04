@@ -1,5 +1,4 @@
 import com.badlogic.gdx.tools.texturepacker.TexturePacker
-import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 
 buildscript {
     repositories {
@@ -94,9 +93,9 @@ project(":core") {
         inputs.dir inputDir
         outputs.dir outputDir
         doLast {
-            if (rebuildAtlas){
+            if (rebuildAtlas) {
                 delete(outputDir)
-                def settings = new Settings()
+                def settings = TexturePacker.Settings()
                 settings.maxWidth = 1024
                 settings.maxHeight = 1024
                 settings.duplicatePadding = false

@@ -11,7 +11,11 @@ I did this game for fun. It involves poping baloons as they pass through the scr
 The project is still under development but its playable :)
 
 # Screenshorts
-![Home](https://drive.google.com/uc?export=view&id=1IS4aicQQ-DfLuCB8IL8YnLK_ljdDQoVP)
+<p align="center">
+<img src="https://drive.google.com/uc?export=view&id=1IS4aicQQ-DfLuCB8IL8YnLK_ljdDQoVP" width="25%" height="25%"/>
 
-![Game play](https://drive.google.com/uc?export=view&id=10lkR-ov4Yxmj5KBDoUvakMAwocdbSSJb)
+<img src="https://drive.google.com/uc?export=view&id=10lkR-ov4Yxmj5KBDoUvakMAwocdbSSJb" width="25%" height="25%"/>
+  
+</p>
+
 
